@@ -1,117 +1,222 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import React from 'react';
-import type {PropsWithChildren} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {View, StyleSheet} from 'react-native';
+import {createStackNavigator} from '@react-navigation/stack';
+import {RootStackParamList} from './src/types/NavigationTypes';
+import LoginPage from './src/pages/screens/LoginPage';
+import RegisterPage from './src/pages/screens/RegisterPage';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+  NavigationContainer,
+  NavigationContainerRef,
+} from '@react-navigation/native';
+import HomePage from './src/pages/screens/HomePage';
+import GameHomePage from './src/pages/screens/GameHomePage';
+import GameTopicSelectionPage from './src/pages/screens/GameTopicSelectionPage';
+import SelectInitialStatsScreen from './src/pages/screens/SelectInitialStatsPage';
+import GameTitlePage from './src/pages/screens/GameTitlePage';
+import SelectInitialStatsHorrorScreen from './src/pages/screens/SelectInitialStatsHorrorScreen';
+import SelectInitialStatsSpaceScreen from './src/pages/screens/SelectInitialStatsSpaceScreen';
+import SelectInitialStatsMedievalScreen from './src/pages/screens/SelectInitialStatsMedievalScreen';
+import SelectInitialStatsFutureScreen from './src/pages/screens/SelectInitialStatsFutureScreen';
+import SelectKeywordFutureScreen from './src/pages/screens/SelectKeywordFutureScreen';
+import SelectKeywordMedievalScreen from './src/pages/screens/SelectKeywordMedievalScreen';
+import SelectKeywordHorrorScreen from './src/pages/screens/SelectKeywordHorrorScreen';
+import SelectKeywordSpaceScreen from './src/pages/screens/SelectKeywordSpaceScreen';
+import GamePlayScreen from './src/pages/screens/GamePlayScreen';
+import FastImage from 'react-native-fast-image';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+const Stack = createStackNavigator<RootStackParamList>();
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+const App = () => {
+  const navigationRef =
+    useRef<NavigationContainerRef<RootStackParamList>>(null);
+  const [isSplashVisible, setIsSplashVisible] = useState(true);
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
+  useEffect(() => {
+    setTimeout(() => {
+      setIsSplashVisible(false);
+    }, 3000); // 스플래시 화면을 3초간 표시
+  }, []);
 
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  if (isSplashVisible) {
+    return (
+      <View style={styles.splashContainer}>
+        <FastImage
+          style={styles.image}
+          source={require('./android/app/src/main/res/drawable/splash.gif')}
+        />
+      </View>
+    );
+  }
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen
+          name="Home"
+          component={HomePage}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Login"
+          component={LoginPage}
+          options={{
+            headerShown: true, // 헤더를 보이게 설정
+            title: '', // 타이틀을 빈 문자열로 설정하여 숨김
+            headerBackTitleVisible: false, // 뒤로가기 버튼 텍스트 숨김
+            headerTransparent: true, // 헤더를 투명하게 설정
+          }}
+        />
+        <Stack.Screen
+          name="Register"
+          component={RegisterPage}
+          options={{
+            headerShown: true, // 헤더를 보이게 설정
+            title: '', // 타이틀을 빈 문자열로 설정하여 숨김
+            headerBackTitleVisible: false, // 뒤로가기 버튼 텍스트 숨김
+            headerTransparent: true, // 헤더를 투명하게 설정
+          }}
+        />
+        <Stack.Screen
+          name="GameHome"
+          component={GameHomePage}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="GameTopicSelection"
+          component={GameTopicSelectionPage}
+          options={{
+            headerShown: true, // 헤더를 보이게 설정
+            title: '', // 타이틀을 빈 문자열로 설정하여 숨김
+            headerBackTitleVisible: false,
+            headerTransparent: true, // 헤더를 투명하게 설정
+          }}
+        />
+        <Stack.Screen
+          name="SelectInitialStats"
+          component={SelectInitialStatsScreen}
+          options={{
+            headerShown: true, // 헤더를 보이게 설정
+            title: '', // 타이틀을 빈 문자열로 설정하여 숨김
+            headerBackTitleVisible: false, // 뒤로가기 버튼 텍스트 숨김
+            headerTransparent: true, // 헤더를 투명하게 설정
+          }}
+        />
+        <Stack.Screen
+          name="SelectInitialStatsFuture"
+          component={SelectInitialStatsFutureScreen}
+          options={{
+            headerShown: true, // 헤더를 보이게 설정
+            title: '', // 타이틀을 빈 문자열로 설정하여 숨김
+            headerBackTitleVisible: false, // 뒤로가기 버튼 텍스트 숨김
+            headerTransparent: true, // 헤더를 투명하게 설정
+          }}
+        />
+        <Stack.Screen
+          name="SelectInitialStatsMedieval"
+          component={SelectInitialStatsMedievalScreen}
+          options={{
+            headerShown: true, // 헤더를 보이게 설정
+            title: '', // 타이틀을 빈 문자열로 설정하여 숨김
+            headerBackTitleVisible: false, // 뒤로가기 버튼 텍스트 숨김
+            headerTransparent: true, // 헤더를 투명하게 설정
+          }}
+        />
+        <Stack.Screen
+          name="SelectInitialStatsHorror"
+          component={SelectInitialStatsHorrorScreen}
+          options={{
+            headerShown: true, // 헤더를 보이게 설정
+            title: '', // 타이틀을 빈 문자열로 설정하여 숨김
+            headerBackTitleVisible: false, // 뒤로가기 버튼 텍스트 숨김
+            headerTransparent: true, // 헤더를 투명하게 설정
+          }}
+        />
+        <Stack.Screen
+          name="SelectInitialStatsSpace"
+          component={SelectInitialStatsSpaceScreen}
+          options={{
+            headerShown: true, // 헤더를 보이게 설정
+            title: '', // 타이틀을 빈 문자열로 설정하여 숨김
+            headerBackTitleVisible: false, // 뒤로가기 버튼 텍스트 숨김
+            headerTransparent: true, // 헤더를 투명하게 설정
+          }}
+        />
+        <Stack.Screen
+          name="GameTitle"
+          component={GameTitlePage}
+          options={{
+            headerShown: true,
+            title: '',
+            headerBackTitleVisible: false,
+            headerTransparent: true,
+          }}
+        />
+        <Stack.Screen
+          name="SelectFutureKeyword"
+          component={SelectKeywordFutureScreen}
+          options={{
+            headerShown: true, // 헤더를 보이게 설정
+            title: '', // 타이틀을 빈 문자열로 설정하여 숨김
+            headerBackTitleVisible: false,
+            headerTransparent: true, // 헤더를 투명하게 설정
+          }}
+        />
+        <Stack.Screen
+          name="SelectMedievalKeyword"
+          component={SelectKeywordMedievalScreen}
+          options={{
+            headerShown: true, // 헤더를 보이게 설정
+            title: '', // 타이틀을 빈 문자열로 설정하여 숨김
+            headerBackTitleVisible: false,
+            headerTransparent: true, // 헤더를 투명하게 설정
+          }}
+        />
+        <Stack.Screen
+          name="SelectHorrorKeyword"
+          component={SelectKeywordHorrorScreen}
+          options={{
+            headerShown: true, // 헤더를 보이게 설정
+            title: '', // 타이틀을 빈 문자열로 설정하여 숨김
+            headerBackTitleVisible: false,
+            headerTransparent: true, // 헤더를 투명하게 설정
+          }}
+        />
+        <Stack.Screen
+          name="SelectSpaceKeyword"
+          component={SelectKeywordSpaceScreen}
+          options={{
+            headerShown: true, // 헤더를 보이게 설정
+            title: '', // 타이틀을 빈 문자열로 설정하여 숨김
+            headerBackTitleVisible: false,
+            headerTransparent: true, // 헤더를 투명하게 설정
+          }}
+        />
+        <Stack.Screen
+          name="GamePlay"
+          component={GamePlayScreen}
+          options={{
+            headerShown: false, // 헤더를 보이게 설정
+          }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  splashContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#000', // 배경색
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  image: {
+    width: '100%',
+    height: '100%',
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
+  container: {
+    flex: 1,
   },
 });
 
