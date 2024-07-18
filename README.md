@@ -2,13 +2,13 @@
 
     
 ### Frontend
-React Native + Typescript
+React Native + Typescript<br>
 한양대학교 컴퓨터소프트웨어학부 22학번 이효정  <br>
 https://github.com/LeeHyo-Jeong
   
   
 ### Backend
-Sprint Boot
+Sprint Boot<br>
 한양대학교 수학과 22학번 이시준  <br>
 https://github.com/imabigger
 
